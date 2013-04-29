@@ -5,7 +5,8 @@ sec_config
 
 sec_config功能介绍
 
-sec_config 提供了nginx几乎所有安全模块以及黑白名单模块的 http配置接口，可通过http接口查询它们的详细配置情况，并可动态修改它们的配置。
+sec_config 提供了nginx几乎所有安全模块以及黑白名单模块的 http配置接口，
+可通过http接口查询它们的详细配置情况，并可动态修改它们的配置。
 
 -----------------------------------------------------------------
 
@@ -41,12 +42,13 @@ nginx配置文件中，在http块下，增加如下配置信息即可。
         location /sec_config {
              sec_config on;
         }
-
+}
 
 -------------------------------------------------------------------------------------
 
 sec_config 的使用
-经过以上配置后即可通过 http://your host/sec_config 和 http://your host/manager/secure_config_update 查询和配置。
+经过以上配置后即可通过 http://your host/sec_config 
+和 http://your host/manager/secure_config_update 查询和配置。
 
 --------------------------------------------------------------------------------------
 
@@ -107,8 +109,10 @@ http://you host/sec_config?zone_name=white&add_item=182.157.3.2
 http://you host/sec_config?zone_name=white&delete_item=182.157.3.2
 
 -----------------------------------------------------------------------------------
+
 查看限制host的配置信息
 示例：
+
 http://127.0.0.1/sec_config?limit_host
 {
 	"version":	"nginx/1.2.0",
@@ -122,7 +126,8 @@ http://127.0.0.1/sec_config?limit_host
 限制test.baidu.com  每个TCP连接的带宽为 10485760byte
 限制localhost 每个TCP连接的带宽为131072byte
 
-----------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------
+
 http://your host/manager/secure_config_update 说明
 该接口需要使用post的方式提交配置数据
 以下示例都将使用 curl 提交post数据
@@ -172,16 +177,16 @@ where是指配置作用位置。。
 ￼￼
 返回结果
 成功:
-{
-  "code": 1000,
-  "text": "config update succed" 
-}  
+   {
+      "code": 1000,
+      "text": "config update succed" 
+   }  
 
 失败:
-{
-  "code": 非 1000,
-  "text": "config update succed" 
-}
+   {
+     "code": 非 1000,
+     "text": "config update succed" 
+   }
 
 ------------------------------------------------------------
 
