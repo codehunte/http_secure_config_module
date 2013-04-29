@@ -1,4 +1,3 @@
-
 sec_config功能介绍
 	sec_config 提供了nginx几乎所有安全模块以及黑白名单模块的 http配置接口，
 	可通过http接口查询它们的详细配置情况，并可动态修改它们的配置。
@@ -181,11 +180,11 @@ curl -d "method=add&cmd_name=limit_req&arg=zone=one burst=12 nodelay&where=8" ht
 在where=8下面增加limit_req zone=one burst=12; 的配置
 
 示例7：
-curl -d "method=add&cmd_name=limit_rate_conf&arg=www.talkyun.com 1M" http://your host/manager/secure_config_update
-增加 限制host信息，限制www.talkyun.com 的带宽为1M byte
+curl -d "method=add&cmd_name=limit_rate_conf&arg=www.xxxx.com 1M" http://your host/manager/secure_config_update
+增加 限制host信息，限制www.xxxx.com 的带宽为1M byte
 
 示例8：
-curl -d "method=del&cmd_name=limit_rate_conf&arg=www.talkyun.com" http://your host/manager/secure_config_update
-删除 限制host信息，删除对www.talkyun.com 的带宽限制
+curl -d "method=del&cmd_name=limit_rate_conf&arg=www.xxxx.com" http://your host/manager/secure_config_update
+删除 限制host信息，删除对www.xxxx.com 的带宽限制
 
 
