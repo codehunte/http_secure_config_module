@@ -222,3 +222,4 @@ curl -d "method=add&cmd_name=limit_rate_conf&arg=www.xxxx.com 1M" http://your ho
 curl -d "method=del&cmd_name=limit_rate_conf&arg=www.xxx.com" http://your host/manager/secure_config_update
 删除 限制host信息，删除对www.xxxx.com 的带宽限制
 
+
