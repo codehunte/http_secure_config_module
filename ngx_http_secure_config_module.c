@@ -224,6 +224,13 @@ ngx_module_t  ngx_http_secure_config_module = {
     NGX_MODULE_V1_PADDING
 };
 
+/*
+ * ngx_http_secure_config_cmd_parse
+ * ngx_http_secure_config_set
+ * 注释掉的内容使得secure_config将只能更新使用共享内存方式
+ * 存储配置数据的模块的配置
+ * */
+
 static void* ngx_http_secure_config_cmd_parse( ngx_http_request_t *r )
 {
 /*
