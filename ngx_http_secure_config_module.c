@@ -1039,7 +1039,7 @@ static ngx_int_t ngx_http_white_black_add_item(ngx_http_request_t *r, cJSON *roo
 	value = values->elts;
 
 	cJSON_AddStringToObject(root, "version", NGINX_VER);
-	if (ngx_white_black_add_item(r, &value[0], &value[1], &reason) == NGX_OK)
+	if (ngx_white_black_add_item(r, &value[0], &value[1], &reason, 0) == NGX_OK)
 	{
 		cJSON_AddStringToObject(root, "code", "0");
 	}
