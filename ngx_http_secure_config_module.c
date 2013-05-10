@@ -13,7 +13,7 @@
 #include <cjson.h>
 #include <nginx.h>
 #include <ngx_white_black_list.h>
-#include <ngx_config_update.h>
+//#include <ngx_config_update.h>
 #include <ngx_white_black_list.h>
 #include <ngx_http_secure_config_funs.h>
 #include <ngx_http_secure_config_module.h>
@@ -28,7 +28,7 @@
 #define ADD_ITEM_STR			"add_item"
 #define DELETE_ITEM_STR			"delete_item"
 #define ZONE_NAME_STR			"zone_name"
-#define HTTP_SECURE_CONFIG_URI	"secure_config_update"
+#define HTTP_SECURE_CONFIG_URI          "secure_config_update"
 #define FOR_EACH_STR			"for_each"
 #define LIMIT_HOST_LIST_STR		"limit_host"
 
@@ -224,13 +224,26 @@ ngx_module_t  ngx_http_secure_config_module = {
     NGX_MODULE_V1_PADDING
 };
 
+static void* ngx_http_secure_config_cmd_parse( ngx_http_request_t *r )
+{
+/*
+	ngx_config_update_ctx_t *cuctx;
+
+	cuctx = ngx_http_get_module_ctx(r, ngx_config_update_framework_module);
+	cuctx->data = cuctx->body_buf;
+	cuctx->data_size = cuctx->body_size;
+
+	return cuctx->data;
+*/
+	return NULL;
+}
+
 static char *
 ngx_http_secure_config_set( ngx_conf_t *cf, ngx_command_t *cmd, void *conf ) {
 
+/*
 	ngx_config_update_loc_conf_t  *culcf;
 	ngx_config_update_cmd_conf_t *cucf;
-
-	/* ngx_str_t                                    *value; */
 
 	culcf = ngx_http_conf_get_module_loc_conf( cf, ngx_config_update_framework_module );
 
@@ -259,7 +272,7 @@ ngx_http_secure_config_set( ngx_conf_t *cf, ngx_command_t *cmd, void *conf ) {
 	cucf->cmd = culcf->nelt;
 
 	culcf->cmds[ culcf->nelt++ ] = cucf;
-
+*/
 	return NGX_CONF_OK;
 }
 
@@ -520,7 +533,7 @@ static ngx_int_t ngx_for_each_location(cJSON	*root, ngx_http_request_t *r)
 	if (ngx_create_locations() == NGX_ERROR) 
 		return NGX_ERROR;
 	
-	cJSON_AddStringToObject(root, "version", DRAGON_VER);
+	cJSON_AddStringToObject(root, "version", NGINX_VER);
 	cJSON_AddStringToObject(root, "code", "0");
 	
 	/*add view shm_zone*/
@@ -670,7 +683,7 @@ static ngx_int_t ngx_for_each_limit_host_rate(cJSON	*root, ngx_http_request_t *r
 	if (root == NULL || r==NULL)
 		return NGX_ERROR;
 
-	cJSON_AddStringToObject(root, "version", DRAGON_VER);
+	cJSON_AddStringToObject(root, "version", NGINX_VER);
 	cJSON_AddStringToObject(root, "code", "0");
 	
 	cJSON_AddItemToObject(root, "host_limit", fmt=cJSON_CreateObject());
@@ -847,7 +860,7 @@ ngx_shm_zone_t *ngx_http_get_shm_zone_by_name(ngx_str_t *zone_name)
 static ngx_int_t ngx_http_config_error(cJSON *root, ngx_array_t *values)
 {
 	ngx_str_t *value;
-	cJSON_AddStringToObject(root, "version", DRAGON_VER);
+	cJSON_AddStringToObject(root, "version", NGINX_VER);
 	cJSON_AddStringToObject(root, "code", "-1");
 	if (values)
 	{
@@ -916,7 +929,7 @@ static ngx_int_t ngx_http_get_info_by_zone_name(ngx_http_request_t *r, cJSON *ro
 	
 	value = values->elts;
 	shm_zone = ngx_http_get_shm_zone_by_name(value);
-	cJSON_AddStringToObject(root, "version", DRAGON_VER);
+	cJSON_AddStringToObject(root, "version", NGINX_VER);
 	
 	if (shm_zone == NULL)
 	{
@@ -987,7 +1000,7 @@ static ngx_int_t ngx_http_get_white_black_zone_list(cJSON *root)
 	cJSON							*fmt;
 	ngx_white_black_array_node_t 	*wb_array_node;
 	
-	cJSON_AddStringToObject(root, "version", DRAGON_VER);
+	cJSON_AddStringToObject(root, "version", NGINX_VER);
 	cJSON_AddStringToObject(root, "code", "0");
 	if (array_white_black_list)
 	{
@@ -1018,7 +1031,7 @@ static ngx_int_t ngx_http_white_black_add_item(ngx_http_request_t *r, cJSON *roo
 
 	value = values->elts;
 
-	cJSON_AddStringToObject(root, "version", DRAGON_VER);
+	cJSON_AddStringToObject(root, "version", NGINX_VER);
 	if (ngx_white_black_add_item(r, &value[0], &value[1], &reason) == NGX_OK)
 	{
 		cJSON_AddStringToObject(root, "code", "0");
@@ -1038,7 +1051,7 @@ static ngx_int_t ngx_http_white_black_delete_item(ngx_http_request_t *r, cJSON *
 
 	value = values->elts;
 
-	cJSON_AddStringToObject(root, "version", DRAGON_VER);
+	cJSON_AddStringToObject(root, "version", NGINX_VER);
 	if (ngx_white_black_delete_item(r, &value[0], &value[1], &reason) == NGX_OK)
 	{
 		cJSON_AddStringToObject(root, "code", "0");
@@ -1182,17 +1195,6 @@ static char *ngx_http_config_module_set(ngx_conf_t *cf, ngx_command_t *cmd, void
 	ngx_conf_g.temp_pool = NULL;
 	
     return NGX_CONF_OK;
-}
-
-static void* ngx_http_secure_config_cmd_parse( ngx_http_request_t *r )
-{
-	ngx_config_update_ctx_t *cuctx;
-
-	cuctx = ngx_http_get_module_ctx(r, ngx_config_update_framework_module);
-	cuctx->data = cuctx->body_buf;
-	cuctx->data_size = cuctx->body_size;
-
-	return cuctx->data;
 }
 
 ngx_http_core_loc_conf_t *ngx_get_core_loc_conf_by_index(ngx_uint_t index)
